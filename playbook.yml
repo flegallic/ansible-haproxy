@@ -1,0 +1,19 @@
+---
+- name: Install config servers
+  hosts: docker
+  remote_user: root
+  become: yes
+
+  roles:
+    - packages
+    - haproxy
+
+  # with proxy server
+  #environment:
+  #  http_proxy: http://proxy.srvc.cvf:3128/
+  #  https_proxy: http://proxy.srvc.cvf:3128/
+
+  # handlers
+  handlers:
+    - include: handlers/main.yml
+...

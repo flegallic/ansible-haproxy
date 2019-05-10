@@ -1,0 +1,44 @@
+global_defs {
+notification_email {
+
+	fabrice.legallic@gmail.com
+    }
+    notification_email_from fabrice.legallic@gmail.com
+    smtp_server mh.srvc.cvf
+    smtp_connect_timeout 30
+
+    router_id "SUPERVIP LBMUT"
+}
+
+vrrp_script chk_haproxy {
+    script "pidof haproxy"
+    # TODO: make these parameters
+    interval 10                     # check every 10 seconds
+    timeout  8                      # time for script cmd to complete
+    weight   2                      # add 2 points of prio if OK
+    fall     2
+    rise     2
+}
+
+vrrp_instance VIP_1 {
+    interface ens33
+    virtual_router_id 13
+    priority 100         # 101 on master, 100 on backup
+    smtp_alert
+
+    unicast_src_ip 192.168.1.100
+        unicast_peer {
+        192.168.1.1
+    }
+
+    authentication {
+        auth_type PASS
+        auth_pass ewoif5qn
+    }
+    virtual_ipaddress {
+        192.168.1.101
+    }
+    track_script {
+        chk_haproxy
+    }
+}

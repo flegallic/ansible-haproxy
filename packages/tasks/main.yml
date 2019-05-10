@@ -1,0 +1,16 @@
+---
+- name: Install list of packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+    - dnsutils
+    - bind9utils
+    - lynx
+    - git
+    - vim
+    - net-tools
+
+...

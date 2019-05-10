@@ -1,0 +1,58 @@
+---
+# This playbook contains haproxy/keepalived actions that will be run on "remote" host.
+
+# Install haproxy
+- name: Install haproxy and keepalived
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - haproxy
+    - keepalived
+  tags:
+    - haproxy
+
+# start haproxy service
+- name: Enable HAProxy service
+  action: service name=haproxy enabled=no
+  tags:
+    - haproxy
+
+# start keepalived service
+- name: Enable keepalived service
+  action: service name=keepalived enabled=no
+  tags:
+    - keepalived
+
+# haproxy configuration file
+- name: haproxy configuration file
+  copy:
+    src: templates/haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart haproxy
+  tags:
+    - haproxy
+# haproxy configuration file with a git repo
+#- git:
+#    repo: ssh://git@github.com/mylogin/hello.git
+#    dest: /home/mylogin/hello
+
+# haproxy configuration file
+- name: keepalived configuration file
+  copy:
+    src: templates/keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart keepalived
+  tags:
+    - keepalived
+
+...
