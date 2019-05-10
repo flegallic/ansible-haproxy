@@ -10,8 +10,8 @@
 
   # with proxy server
   #environment:
-  #  http_proxy: http://proxy.srvc.cvf:3128/
-  #  https_proxy: http://proxy.srvc.cvf:3128/
+  #  http_proxy: http://your_proxy:8080/
+  #  https_proxy: http://your_proxy:8080/
 
   # handlers
   handlers:

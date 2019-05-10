@@ -37,10 +37,6 @@
     - restart haproxy
   tags:
     - haproxy
-# haproxy configuration file with a git repo
-#- git:
-#    repo: ssh://git@github.com/mylogin/hello.git
-#    dest: /home/mylogin/hello
 
 # haproxy configuration file
 - name: keepalived configuration file
